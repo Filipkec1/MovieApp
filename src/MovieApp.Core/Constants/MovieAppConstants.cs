@@ -1,4 +1,6 @@
-﻿namespace MovieApp.Core.Constants
+﻿using MovieApp.Core.Helpers;
+
+namespace MovieApp.Core.Constants
 {
     /// <summary>
     /// All of the constans used in the solution
@@ -6,8 +8,13 @@
     public class MovieAppConstants
     {
         /// <summary>
-        /// Connection string section
+        /// Connection string section.
         /// </summary>
-        public const string MovieAppDatabase = "MovieAppDatabase";
+        public const string MovieAppDatabaseSection = "MovieAppDatabase";
+
+        /// <summary>
+        /// <see cref="PasswordHasher"/> section.
+        /// </summary>
+        public const string PasswordHasherSection = "PasswordHasher";
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Serilog;
 using Serilog.Core;
-using System.IO;
 
 namespace MovieApp.Web.Extensions
 {
@@ -9,7 +8,7 @@ namespace MovieApp.Web.Extensions
         /// <summary>
         /// Adds logging to dependency injection.
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">Services for extension.</param>
         public static IServiceCollection AddLoggingToDependencyInjection(this IServiceCollection services)
         {
             string path = Environment.CurrentDirectory + "/logs";

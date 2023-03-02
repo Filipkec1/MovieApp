@@ -1,4 +1,5 @@
-﻿using MovieApp.Infrastructure.EfUnitsOfWork;
+﻿using MovieApp.Core.Helpers;
+using MovieApp.Infrastructure.EfUnitsOfWork;
 
 namespace MovieApp.Web.Extensions
 {
@@ -13,6 +14,10 @@ namespace MovieApp.Web.Extensions
             //services.AddHostedService<HeistAutomizeService>();
             //services.AddScoped<IHeistService, HeistService>();
 
+            //Password Hashing
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+            //Unit of work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

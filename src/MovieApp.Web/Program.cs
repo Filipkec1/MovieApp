@@ -25,7 +25,7 @@ namespace MovieApp
 
             builder.Services.AddDbContext<MovieAppContext>(maker =>
             {
-                maker.UseSqlServer(builder.Configuration.GetConnectionString(MovieAppConstants.MovieAppDatabase));
+                maker.UseSqlServer(builder.Configuration.GetConnectionString(MovieAppConstants.MovieAppDatabaseSection));
                 maker.EnableSensitiveDataLogging(true);
             });
 
