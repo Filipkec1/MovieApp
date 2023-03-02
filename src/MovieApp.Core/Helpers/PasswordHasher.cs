@@ -1,7 +1,6 @@
 ﻿using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Settings;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace MovieApp.Core.Helpers
 {
@@ -10,13 +9,20 @@ namespace MovieApp.Core.Helpers
     /// </summary>
     public interface IPasswordHasher
     {
-        string ComputeHash(string password, string salt);
+        /// <summary>
+        /// Generate new hashed password.
+        /// </summary>
+        /// <param name="password">Password to hash.</param>
+        /// <returns></returns>
+        string ComputeHash(string password);
 
         /// <summary>
-        /// Generate a new salt for <see cref="User"/>
+        /// Check if <paramref name="password"/> and <paramref name="storedHash"/> are the same password.
         /// </summary>
-        /// <returns></returns>
-        string GenerateSalt();
+        /// <param name="password">Password that is being compared to <paramref name="storedHash"/></param>
+        /// <param name="storedHash"><see cref="User"/>'s password.</param>
+        /// <returns>Return true if they match, return false if they do not match.</returns>
+        bool VerifyPassword(string password, string storedHash);
     }
 
     /// <summary>
@@ -24,8 +30,6 @@ namespace MovieApp.Core.Helpers
     /// </summary>
     public class PasswordHasher : IPasswordHasher
     {
-        private const int KeySize = 32; // 256 bit
-
         /// <summary>
         ///
         /// </summary>
@@ -41,25 +45,43 @@ namespace MovieApp.Core.Helpers
         protected PasswordHasherSettings settings { get; set; }
 
         /// <inheritdoc/>
-        public string ComputeHash(string password, string salt)
+        public string ComputeHash(string password)
         {
-            byte[] saltByteValue = Encoding.UTF8.GetBytes(salt);
+            //Generate salt
+            byte[] saltByteValue = GenerateSalt();
 
+            //Compute hash
             using (var algorithm = new Rfc2898DeriveBytes(password, saltByteValue, settings.Iterations, HashAlgorithmName.SHA512))
             {
-                return Convert.ToBase64String(algorithm.GetBytes(KeySize));
+                return $"{Convert.ToBase64String(saltByteValue)}.{Convert.ToBase64String(algorithm.GetBytes(settings.KeySize))}"; ;
             }
         }
 
         /// <inheritdoc/>
-        public string GenerateSalt()
+        public bool VerifyPassword(string password, string storedHash)
+        {
+            //Split storedHash
+            string[] splitStoredHash = storedHash.Split('.');
+
+            //Create new hash and compare it with the old
+            using (var algorithm = new Rfc2898DeriveBytes(password, Convert.FromBase64String(splitStoredHash[0]), settings.Iterations, HashAlgorithmName.SHA512))
+            {
+                string hash = Convert.ToBase64String(algorithm.GetBytes(settings.KeySize));
+                return hash == splitStoredHash[1];
+            }
+        }
+
+        /// <summary>
+        /// Generate a new salt for <see cref="User"/>
+        /// </summary>
+        /// <returns>Salt as a byte array.</returns>
+        private byte[] GenerateSalt()
         {
             using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 var byteSalt = new byte[16];
                 rng.GetBytes(byteSalt);
-                var salt = Convert.ToBase64String(byteSalt);
-                return salt;
+                return byteSalt;
             }
         }
     }

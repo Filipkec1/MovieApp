@@ -19,14 +19,12 @@ namespace MovieApp
             builder.Services.AddSettingsToDependencyInjection(builder.Configuration);
             builder.Services.AddValidatorsToDependencyInjection();
             builder.Services.AddLoggingToDependencyInjection();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<MovieAppContext>(maker =>
             {
-                maker.UseSqlServer(builder.Configuration.GetConnectionString(MovieAppConstants.MovieAppDatabaseSection));
-                maker.EnableSensitiveDataLogging(true);
+                maker.UseNpgsql(builder.Configuration.GetConnectionString(MovieAppConstants.MovieAppDatabaseSection));
             });
 
             var app = builder.Build();
