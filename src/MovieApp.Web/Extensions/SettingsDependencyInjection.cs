@@ -24,6 +24,7 @@ namespace MovieApp.Web.Extensions
             services.UseConfigurationValidation();
 
             services.ConfigureValidatableSetting<PasswordHasherSettings>(configuration.GetSection(MovieAppConstants.PasswordHasherSection));
+            services.ConfigureValidatableSetting<JWTSettings>(configuration.GetSection(MovieAppConstants.JWTSection));
 
             return services;
         }

@@ -26,23 +26,20 @@ namespace MovieApp.Core.Helpers
     }
 
     /// <summary>
-    ///
+    /// Defines a password hasher
     /// </summary>
     public class PasswordHasher : IPasswordHasher
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="settings"></param>
-        public PasswordHasher(PasswordHasherSettings settings)
-        {
-            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
-        }
+        protected PasswordHasherSettings settings { get; set; }
 
         /// <summary>
-        /// <see cref="PasswordHasher"/> settings.
+        /// Initilizes new instance of <see cref="PasswordHasher"/>
         /// </summary>
-        protected PasswordHasherSettings settings { get; set; }
+        /// <param name="settings"><see cref="PasswordHasherSettings"/></param>
+        public PasswordHasher(PasswordHasherSettings settings)
+        {
+            this.settings = settings;
+        }
 
         /// <inheritdoc/>
         public string ComputeHash(string password)
@@ -63,7 +60,7 @@ namespace MovieApp.Core.Helpers
             //Split storedHash
             string[] splitStoredHash = storedHash.Split('.');
 
-            //Create new hash and compare it with the old
+            //Compute hash and compare it with the old
             using (var algorithm = new Rfc2898DeriveBytes(password, Convert.FromBase64String(splitStoredHash[0]), settings.Iterations, HashAlgorithmName.SHA512))
             {
                 string hash = Convert.ToBase64String(algorithm.GetBytes(settings.KeySize));

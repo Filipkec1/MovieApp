@@ -1,8 +1,12 @@
-﻿using NetEscapades.Configuration.Validation;
+﻿using MovieApp.Core.Helpers;
+using NetEscapades.Configuration.Validation;
 using System.Numerics;
 
 namespace MovieApp.Core.Settings
 {
+    /// <summary>
+    /// Defines validation class for <see cref="PasswordHasher"/> settings.
+    /// </summary>
     public class PasswordHasherSettings : IValidatable
     {
         public int Iterations { get; set; } 

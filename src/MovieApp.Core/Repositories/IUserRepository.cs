@@ -13,5 +13,12 @@ namespace MovieApp.Core.Repositories
         /// </summary>
         /// <returns>A list of <see cref="User"/>s.</returns>
         Task<IEnumerable<User>> GetAllUsers();
+
+        /// <summary>
+        /// Get <see cref="User"/> and its <see cref="Role"/> by User name.
+        /// </summary>
+        /// <param name="name"><see cref="User"/>'s name.</param>
+        /// <returns><see cref="User"/></returns>
+        Task<User?> GetUserWithRoleByName(string name);
     }
 }

@@ -16,5 +16,15 @@ namespace MovieApp.Core.Constants
         /// <see cref="PasswordHasher"/> section.
         /// </summary>
         public const string PasswordHasherSection = "PasswordHasher";
+
+        /// <summary>
+        /// JWT section.
+        /// </summary>
+        public const string JWTSection = "JWT";
+
+        /// <summary>
+        /// Used for BearerToken
+        /// </summary>
+        public const string BearerToken = "Bearer";
     }
 }

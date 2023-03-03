@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using MovieApp.Core.Constants;
 using MovieApp.Infrastructure.Context;
 using MovieApp.Web.Extensions;
+using MovieApp.Web.Filters;
 
 namespace MovieApp
 {
@@ -20,7 +23,18 @@ namespace MovieApp
             builder.Services.AddValidatorsToDependencyInjection();
             builder.Services.AddLoggingToDependencyInjection();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options => 
+                {
+                    options.AddSecurityDefinition(MovieAppConstants.BearerToken, new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authorization",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+                    options.OperationFilter<SecureEndpointAuthRequirementFilter>();
+                });
 
             builder.Services.AddDbContext<MovieAppContext>(maker =>
             {
@@ -36,11 +50,10 @@ namespace MovieApp
                 app.UseSwaggerUI();
             }
 
+            AddMiddlewareExtension.AddMiddlewareDependencyInjection(ref app);
+
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();

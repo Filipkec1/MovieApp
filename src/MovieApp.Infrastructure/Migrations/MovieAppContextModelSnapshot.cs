@@ -68,6 +68,9 @@ namespace MovieApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("User");

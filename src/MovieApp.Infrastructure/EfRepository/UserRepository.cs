@@ -32,7 +32,17 @@ namespace MovieApp.Infrastructure.EfRepository
         {
             return await GetTableQueryable()
                         .AsNoTracking()
+                        .Include(u => u.Role)
                         .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        /// <inheritdoc />
+        public async Task<User?> GetUserWithRoleByName(string name)
+        {
+            return await GetTableQueryable()
+                        .AsNoTracking()
+                        .Include(u => u.Role)
+                        .FirstOrDefaultAsync(u => u.Name == name);
         }
     }
 }

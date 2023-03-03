@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Models.Enums;
-using System.Diagnostics.Metrics;
 
 namespace MovieApp.Infrastructure.Context
 {
@@ -31,6 +30,11 @@ namespace MovieApp.Infrastructure.Context
             modelBuilder.Entity<Role>()
                         .Property(p => p.Name)
                         .HasColumnType("varchar(5)");
+
+            //User
+            modelBuilder.Entity<User>()
+                        .HasIndex(m => m.Name)
+                        .IsUnique();
 
             //Seed data
             SeedData(modelBuilder);
