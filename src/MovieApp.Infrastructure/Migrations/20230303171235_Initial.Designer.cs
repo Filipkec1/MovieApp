@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MovieApp.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieAppContext))]
-    [Migration("20230303140838_Initial")]
+    [Migration("20230303171235_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -44,6 +44,11 @@ namespace MovieApp.Infrastructure.Migrations
                         {
                             Id = new Guid("19f977cc-3916-4a1f-908c-f48700a40880"),
                             Name = "Action"
+                        },
+                        new
+                        {
+                            Id = new Guid("f33e407e-ea8d-40f0-8e14-c694e513f54b"),
+                            Name = "Thriller"
                         });
                 });
 
@@ -72,6 +77,12 @@ namespace MovieApp.Infrastructure.Migrations
                         {
                             Id = new Guid("74600e89-170c-41b7-8aae-48f8ec08630d"),
                             CategoryId = new Guid("19f977cc-3916-4a1f-908c-f48700a40880"),
+                            MovieId = new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6")
+                        },
+                        new
+                        {
+                            Id = new Guid("8eb369de-0942-4f2d-99ee-6afaad68961b"),
+                            CategoryId = new Guid("f33e407e-ea8d-40f0-8e14-c694e513f54b"),
                             MovieId = new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6")
                         });
                 });

@@ -25,5 +25,14 @@ namespace MovieApp.Infrastructure.EfRepository
                         .AsNoTracking()
                         .FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<CategoryMovie>> GetCategoryMoviesByMovieId(Guid movieId)
+        {
+            return await GetTableQueryable()
+                        .AsNoTracking()
+                        .Where(cm => cm.MovieId == movieId)
+                        .ToListAsync();
+        }
     }
 }

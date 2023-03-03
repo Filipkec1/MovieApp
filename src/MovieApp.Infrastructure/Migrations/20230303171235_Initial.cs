@@ -97,7 +97,11 @@ namespace MovieApp.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Category",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { new Guid("19f977cc-3916-4a1f-908c-f48700a40880"), "Action" });
+                values: new object[,]
+                {
+                    { new Guid("19f977cc-3916-4a1f-908c-f48700a40880"), "Action" },
+                    { new Guid("f33e407e-ea8d-40f0-8e14-c694e513f54b"), "Thriller" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Movie",
@@ -116,7 +120,11 @@ namespace MovieApp.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "CategoryMovie",
                 columns: new[] { "Id", "CategoryId", "MovieId" },
-                values: new object[] { new Guid("74600e89-170c-41b7-8aae-48f8ec08630d"), new Guid("19f977cc-3916-4a1f-908c-f48700a40880"), new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6") });
+                values: new object[,]
+                {
+                    { new Guid("74600e89-170c-41b7-8aae-48f8ec08630d"), new Guid("19f977cc-3916-4a1f-908c-f48700a40880"), new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6") },
+                    { new Guid("8eb369de-0942-4f2d-99ee-6afaad68961b"), new Guid("f33e407e-ea8d-40f0-8e14-c694e513f54b"), new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6") }
+                });
 
             migrationBuilder.InsertData(
                 table: "User",

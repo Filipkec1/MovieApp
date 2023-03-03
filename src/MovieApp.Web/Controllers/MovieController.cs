@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieApp.Core.Atributes;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Models.Enums;
 using MovieApp.Core.Request;
@@ -6,7 +7,6 @@ using MovieApp.Core.Results;
 using MovieApp.Core.Results.Base;
 using MovieApp.Core.Services;
 using MovieApp.Web.Controllers.Base;
-using MovieApp.Core.Atributes;
 
 namespace MovieApp.Web.Controllers
 {
@@ -34,10 +34,17 @@ namespace MovieApp.Web.Controllers
         /// <param name="id">Id of the <see cref="Movie"/> that is going to be deleted</param>
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(RoleEnum.Admin)]
+        //[Authorize(RoleEnum.Admin)]
         [Produces(typeof(NoContentResult))]
-        public async Task<ActionResult<NoContentResult>> Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
+            Result result = await movieService.DeleteMovie(id);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
             return NoContent();
         }
 
@@ -51,7 +58,14 @@ namespace MovieApp.Web.Controllers
         [Produces(typeof(MovieResult))]
         public async Task<ActionResult<MovieResult>> Get([FromRoute] Guid id)
         {
-            return Ok();
+            Result<MovieResult> result = await movieService.GetMovieById(id);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         /// <summary>
@@ -62,7 +76,14 @@ namespace MovieApp.Web.Controllers
         [Produces(typeof(IEnumerable<MovieResult>))]
         public async Task<ActionResult<IEnumerable<MovieResult>>> GetAll()
         {
-            return Ok();
+            Result<IEnumerable<MovieResult>> result = await movieService.GetAllMovies();
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         /// <summary>
@@ -85,10 +106,9 @@ namespace MovieApp.Web.Controllers
         /// <returns>A <see cref="Movie"/> as <see cref="MovieResult"/></returns>
         [HttpPost]
         [Produces(typeof(MovieResult))]
-        [Authorize(RoleEnum.Admin, RoleEnum.User)]
         public async Task<ActionResult<MovieResult>> Post([FromBody] MovieCreateRequest request)
         {
-            Result<MovieResult> result = null;
+            Result<MovieResult> result = await movieService.CreateMovie(request);
 
             if (result.IsFailure)
             {
@@ -105,10 +125,17 @@ namespace MovieApp.Web.Controllers
         /// <param name="request"><see cref="MovieUpdateRequest"/></param>
         [HttpPut]
         [Route("{id:Guid}")]
-        [Authorize(RoleEnum.Admin, RoleEnum.User)]
+        //[Authorize(RoleEnum.Admin, RoleEnum.User)]
         [Produces(typeof(NoContentResult))]
-        public async Task<ActionResult<NoContentResult>> Put([FromRoute] Guid id, [FromBody] MovieUpdateRequest request)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] MovieUpdateRequest request)
         {
+            Result result = await movieService.UpdateMovie(id, request);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
             return NoContent();
         }
     }

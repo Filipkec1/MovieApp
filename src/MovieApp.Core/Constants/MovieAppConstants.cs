@@ -26,5 +26,10 @@ namespace MovieApp.Core.Constants
         /// Used for BearerToken
         /// </summary>
         public const string BearerToken = "Bearer";
+
+        /// <summary>
+        /// Used for added new element to context for JWT auth
+        /// </summary>
+        public const string ContextUser = "User";
     }
 }

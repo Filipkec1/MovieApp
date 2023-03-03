@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using MovieApp.Core.Constants;
 using MovieApp.Core.Models.Enums;
 using MovieApp.Core.Results;
 
@@ -27,7 +28,7 @@ namespace MovieApp.Core.Atributes
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             //Get user from context
-            UserResult? user = (UserResult?)context.HttpContext.Items["User"];
+            UserResult? user = (UserResult?)context.HttpContext.Items[MovieAppConstants.ContextUser];
 
             //Check if user is null
             //If the user is null that means that they are not logged in

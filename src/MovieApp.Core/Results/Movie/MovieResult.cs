@@ -15,11 +15,16 @@ namespace MovieApp.Core.Results
         {
             Id = movie.Id;
             Title = movie.Title;
-            Categories = string.Join(", ", movie.CategoryMovie.Select(cm => cm.Category.Name));
+
+            //Check if movie has any categories
+            if (movie.CategoryMovie.Any())
+            {
+                Categories = string.Join(", ", movie.CategoryMovie.Select(cm => cm.Category.Name));
+            }
         }
 
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public string Categories { get; set; }
+        public string Categories { get; set; } = "";
     }
 }

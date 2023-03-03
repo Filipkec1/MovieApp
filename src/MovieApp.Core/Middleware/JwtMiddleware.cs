@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using MovieApp.Core.Constants;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Results;
 using MovieApp.Core.Results.Base;
@@ -89,7 +90,7 @@ namespace MovieApp.Core.Middleware
             }
 
             //Set user to context
-            context.Items["User"] = result.Value;
+            context.Items[MovieAppConstants.ContextUser] = result.Value;
         }
     }
 }

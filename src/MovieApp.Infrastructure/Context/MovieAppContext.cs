@@ -50,13 +50,20 @@ namespace MovieApp.Infrastructure.Context
         public void SeedData(ModelBuilder modelBuilder)
         {
             //Category
-            Category category = new Category()
+            Category category1 = new Category()
             {
                 Id = Guid.Parse("19f977cc-3916-4a1f-908c-f48700a40880"),
                 Name = "Action"
             };
 
-            modelBuilder.Entity<Category>().HasData(category);
+            Category category2 = new Category()
+            {
+                Id = Guid.Parse("f33e407e-ea8d-40f0-8e14-c694e513f54b"),
+                Name = "Thriller"
+            };
+
+            modelBuilder.Entity<Category>().HasData(category1);
+            modelBuilder.Entity<Category>().HasData(category2);
 
             //Movie
             Movie movie = new Movie()
@@ -68,14 +75,22 @@ namespace MovieApp.Infrastructure.Context
             modelBuilder.Entity<Movie>().HasData(movie);
 
             //CategoryMovie
-            CategoryMovie categoryMovie = new CategoryMovie()
+            CategoryMovie categoryMovie1 = new CategoryMovie()
             {
                 Id = Guid.Parse("74600e89-170c-41b7-8aae-48f8ec08630d"),
-                CategoryId = category.Id,
+                CategoryId = category1.Id,
                 MovieId = movie.Id
             };
 
-            modelBuilder.Entity<CategoryMovie>().HasData(categoryMovie);
+            CategoryMovie categoryMovie2 = new CategoryMovie()
+            {
+                Id = Guid.Parse("8eb369de-0942-4f2d-99ee-6afaad68961b"),
+                CategoryId = category2.Id,
+                MovieId = movie.Id
+            };
+
+            modelBuilder.Entity<CategoryMovie>().HasData(categoryMovie1);
+            modelBuilder.Entity<CategoryMovie>().HasData(categoryMovie2);
 
             //Role
             Role adminRole = new Role()
