@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Services.Base;
 using MovieApp.Infrastructure.EfUnitsOfWork;
 
-namespace CategoryApp.Core.Services
+namespace MovieApp.Core.Services
 {
     /// <summary>
     /// Defines <see cref="Category"/> Service interface.

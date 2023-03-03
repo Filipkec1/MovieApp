@@ -1,5 +1,4 @@
-﻿using CategoryApp.Core.Services;
-using MovieApp.Core.Helpers;
+﻿using MovieApp.Core.Helpers;
 using MovieApp.Core.Services;
 using MovieApp.Infrastructure.EfUnitsOfWork;
 

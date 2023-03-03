@@ -1,5 +1,4 @@
-﻿using CategoryApp.Core.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Services;
 using MovieApp.Web.Controllers.Base;
