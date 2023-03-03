@@ -19,15 +19,15 @@ namespace MovieApp.Web.Filters
             }
 
             operation.Security = new List<OpenApiSecurityRequirement>
-        {
-            new OpenApiSecurityRequirement
             {
-                [new OpenApiSecurityScheme
+                new OpenApiSecurityRequirement
                 {
-                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = MovieAppConstants.BearerToken }
-                }] = new List<string>()
-            }
-        };
+                    [new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = MovieAppConstants.BearerToken }
+                    }] = new List<string>()
+                }
+            };
         }
     }
 }

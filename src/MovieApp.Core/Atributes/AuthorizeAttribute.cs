@@ -38,14 +38,13 @@ namespace MovieApp.Core.Atributes
             }
 
             //Check if user has role
-            //Check if role is acceptable
             if(!Enum.TryParse<RoleEnum>(user.Role, out RoleEnum role))
             {
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
                 return;
             }
 
-            //Check if user has role
+            //Check if role is acceptable
             if (!roleList.Contains(role))
             {
                 context.Result = new JsonResult(new { message = "User does not have permision." }) { StatusCode = StatusCodes.Status401Unauthorized };

@@ -44,9 +44,9 @@ namespace MovieApp.Core.Middleware
         /// <summary>
         /// Attach <see cref="User"/> to context
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="userService"></param>
-        /// <param name="token"></param>
+        /// <param name="context">The current context.</param>
+        /// <param name="userService"><see cref="IUserService"/></param>
+        /// <param name="token">Authorization token</param>
         private async Task AttachUserToContext(HttpContext context, IUserService userService, string token)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
@@ -55,6 +55,7 @@ namespace MovieApp.Core.Middleware
 
             try
             {
+                //Validate token
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -64,6 +65,7 @@ namespace MovieApp.Core.Middleware
                     ClockSkew = TimeSpan.Zero
                 }, out validatedToken);
             }
+            //If validation fails return nothing.
             catch
             {
                 return;  

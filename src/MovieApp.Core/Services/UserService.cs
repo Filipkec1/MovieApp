@@ -105,9 +105,10 @@ namespace MovieApp.Core.Services
         /// <returns>A JWT.</returns>
         private string GenerateJwt(User user)
         {
-            // generate token that is valid for 8 hours
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(jWTSettings.Secret);
+
+            //Generate token that is valid for 8 hours
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("Id", user.Id.ToString()) }),
