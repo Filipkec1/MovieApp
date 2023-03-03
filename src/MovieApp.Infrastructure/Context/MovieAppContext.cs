@@ -13,8 +13,12 @@ namespace MovieApp.Infrastructure.Context
             : base(options)
         { }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<CategoryMovie> CategoryMovie { get; set; }
+        public DbSet<Movie> Movie { get; set; }
         public DbSet<Role> Role { get; set; }
+        public DbSet<User> User { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +49,34 @@ namespace MovieApp.Infrastructure.Context
         /// </summary>
         public void SeedData(ModelBuilder modelBuilder)
         {
+            //Category
+            Category category = new Category()
+            {
+                Id = Guid.Parse("19f977cc-3916-4a1f-908c-f48700a40880"),
+                Name = "Action"
+            };
+
+            modelBuilder.Entity<Category>().HasData(category);
+
+            //Movie
+            Movie movie = new Movie()
+            {
+                Id = Guid.Parse("02d3fa37-f439-4e67-a87a-1dcf1d077ad6"),
+                Title = "Blade Runner 2049"
+            };
+
+            modelBuilder.Entity<Movie>().HasData(movie);
+
+            //CategoryMovie
+            CategoryMovie categoryMovie = new CategoryMovie()
+            {
+                Id = Guid.Parse("74600e89-170c-41b7-8aae-48f8ec08630d"),
+                CategoryId = category.Id,
+                MovieId = movie.Id
+            };
+
+            modelBuilder.Entity<CategoryMovie>().HasData(categoryMovie);
+
             //Role
             Role adminRole = new Role()
             {

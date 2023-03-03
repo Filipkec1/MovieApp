@@ -15,8 +15,8 @@ namespace MovieApp.Core.Services.Base
         /// <param name="unitOfWork"><see cref="IUnitOfWork"/></param>
         public ServiceBase(IUnitOfWork unitOfWork, ILogger<T> logger)
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.unitOfWork = unitOfWork;
+            this.logger = logger;
         }
 
         /// <summary>

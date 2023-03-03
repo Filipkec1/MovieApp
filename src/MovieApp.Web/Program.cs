@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MovieApp.Core.Constants;
 using MovieApp.Infrastructure.Context;
@@ -23,7 +22,7 @@ namespace MovieApp
             builder.Services.AddValidatorsToDependencyInjection();
             builder.Services.AddLoggingToDependencyInjection();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(options => 
+            builder.Services.AddSwaggerGen(options =>
                 {
                     options.AddSecurityDefinition(MovieAppConstants.BearerToken, new OpenApiSecurityScheme
                     {

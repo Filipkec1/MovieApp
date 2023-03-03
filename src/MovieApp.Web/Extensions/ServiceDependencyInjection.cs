@@ -1,4 +1,5 @@
-﻿using MovieApp.Core.Helpers;
+﻿using CategoryApp.Core.Services;
+using MovieApp.Core.Helpers;
 using MovieApp.Core.Services;
 using MovieApp.Infrastructure.EfUnitsOfWork;
 
@@ -12,6 +13,12 @@ namespace MovieApp.Web.Extensions
         /// <param name="services"></param>
         public static IServiceCollection AddServicesToDependencyInjection(this IServiceCollection services)
         {
+            //Category
+            services.AddScoped<ICategoryService, CategoryService>();
+
+            //Movie
+            services.AddScoped<IMovieService, MovieService>();
+
             //User
             services.AddScoped<IUserService, UserService>();
 

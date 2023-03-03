@@ -64,7 +64,7 @@ namespace MovieApp.Core.Services
         /// <inheritdoc/>
         public async Task<Result<IEnumerable<UserResult>>> GetAllUsers()
         {
-            IEnumerable<User> userList = await unitOfWork.User.GetAllUsers();
+            IEnumerable<User> userList = await unitOfWork.User.GetAll();
             return userList.Select(u => new UserResult(u)).ToList();
         }
 

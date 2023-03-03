@@ -14,13 +14,13 @@ namespace MovieApp.Core.Services.Base
         /// </summary>
         /// <param name="logger">For logging</param>
         /// <param name="serviceProvider">To get dependency injection things like <see cref="IUnitOfWork"/> or something else</param>
-        public BackgroundServiceBase(IServiceProvider serviceProvider)
+        public BackgroundServiceBase(IServiceProvider provider)
         {
-            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            serviceProvider = provider;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="ILogger"/>.
+        /// Gets or sets <see cref="IServiceProvider"/>.
         /// </summary>
         protected IServiceProvider serviceProvider;
     }

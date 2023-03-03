@@ -18,8 +18,11 @@ namespace MovieApp.Infrastructure.EfRepository
         public UserRepository(MovieAppContext context) : base(context)
         { }
 
-        /// <inheritdoc />
-        public async Task<IEnumerable<User>> GetAllUsers()
+        /// <summary>
+        /// Get all <see cref="User"/>s with their <see cref="Role"/>
+        /// </summary>
+        /// <returns>A list of <see cref="User"/>s.</returns>
+        public override async Task<IEnumerable<User>> GetAll()
         {
             return await GetTableQueryable()
                         .AsNoTracking()

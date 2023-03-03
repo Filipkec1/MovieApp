@@ -14,6 +14,21 @@ namespace MovieApp.Infrastructure.EfUnitsOfWork
         Task Commit();
 
         /// <summary>
+        /// Used to get <see cref="ICategoryMovieRepository"/>
+        /// </summary>
+        ICategoryMovieRepository CategoryMovie { get; }
+
+        /// <summary>
+        /// Used to get <see cref="ICategoryRepository"/>
+        /// </summary>
+        ICategoryRepository Category { get; }
+
+        /// <summary>
+        /// Used to get <see cref="IMovieRepository"/>
+        /// </summary>
+        IMovieRepository Movie { get; }
+
+        /// <summary>
         /// Used to get <see cref="IRoleRepository"/>
         /// </summary>
         IRoleRepository Role { get; }

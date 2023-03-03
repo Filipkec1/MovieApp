@@ -12,7 +12,7 @@ namespace MovieApp.Infrastructure.EfRepository.Base
     {
         public RepositoryBase(MovieAppContext context)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.context = context;
         }
 
         protected MovieAppContext context { get; }

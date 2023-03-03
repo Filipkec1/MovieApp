@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MovieApp.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieAppContext))]
-    [Migration("20230303093720_Initial")]
+    [Migration("20230303140838_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,79 @@ namespace MovieApp.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("MovieApp.Core.Models.Entities.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("19f977cc-3916-4a1f-908c-f48700a40880"),
+                            Name = "Action"
+                        });
+                });
+
+            modelBuilder.Entity("MovieApp.Core.Models.Entities.CategoryMovie", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("CategoryMovie");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("74600e89-170c-41b7-8aae-48f8ec08630d"),
+                            CategoryId = new Guid("19f977cc-3916-4a1f-908c-f48700a40880"),
+                            MovieId = new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6")
+                        });
+                });
+
+            modelBuilder.Entity("MovieApp.Core.Models.Entities.Movie", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Movie");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("02d3fa37-f439-4e67-a87a-1dcf1d077ad6"),
+                            Title = "Blade Runner 2049"
+                        });
+                });
 
             modelBuilder.Entity("MovieApp.Core.Models.Entities.Role", b =>
                 {
@@ -95,6 +168,25 @@ namespace MovieApp.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MovieApp.Core.Models.Entities.CategoryMovie", b =>
+                {
+                    b.HasOne("MovieApp.Core.Models.Entities.Category", "Category")
+                        .WithMany("CategoryMovie")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieApp.Core.Models.Entities.Movie", "Movie")
+                        .WithMany("CategoryMovie")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Movie");
+                });
+
             modelBuilder.Entity("MovieApp.Core.Models.Entities.User", b =>
                 {
                     b.HasOne("MovieApp.Core.Models.Entities.Role", "Role")
@@ -104,6 +196,16 @@ namespace MovieApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MovieApp.Core.Models.Entities.Category", b =>
+                {
+                    b.Navigation("CategoryMovie");
+                });
+
+            modelBuilder.Entity("MovieApp.Core.Models.Entities.Movie", b =>
+                {
+                    b.Navigation("CategoryMovie");
                 });
 
             modelBuilder.Entity("MovieApp.Core.Models.Entities.Role", b =>
