@@ -41,6 +41,7 @@
         /// <param name="id">Unique identifier</param>
         /// <returns>Entity</returns>
         Task<TEntity?> GetById(TPrimaryKey id);
+
         /// <summary>
         /// Updates an already existing entity.
         /// </summary>

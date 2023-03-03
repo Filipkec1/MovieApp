@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MovieApp.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieAppContext))]
-    [Migration("20230302225457_Initial")]
+    [Migration("20230302232922_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace MovieApp.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(5)");
 
                     b.HasKey("Id");
 
@@ -60,11 +60,11 @@ namespace MovieApp.Infrastructure.Migrations
 
                     b.Property<string>("Hash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");

@@ -5,8 +5,13 @@ namespace MovieApp.Core.Models.Entities
 {
     public class User : BaseModel
     {
+        [Column(TypeName = "varchar(100)")]
         public string Hash { get; set; }
+
+        [Required]
+        [Column(TypeName = "varchar(100)")]
         public string Name { get; set; }
+
         public Role Role { get; set; } = null!;
 
         [Required]

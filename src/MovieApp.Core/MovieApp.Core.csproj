@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Enums\" />
+    <Folder Include="Atributes\" />
     <Folder Include="Request\" />
     <Folder Include="UnitsOfWork\" />
   </ItemGroup>

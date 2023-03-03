@@ -1,4 +1,7 @@
-﻿namespace MovieApp.Core.Models.Entities
+﻿using MovieApp.Core.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace MovieApp.Core.Models.Entities
 {
     public class Role : BaseModel
     {
@@ -7,7 +10,8 @@
             User = new HashSet<User>();
         }
 
-        public string Name { get; set; }
+        [Required]
+        public RoleEnum Name { get; set; }
 
         public virtual ICollection<User> User { get; set; }
     }

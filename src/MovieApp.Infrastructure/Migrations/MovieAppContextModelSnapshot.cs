@@ -30,7 +30,7 @@ namespace MovieApp.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(5)");
 
                     b.HasKey("Id");
 
@@ -57,11 +57,11 @@ namespace MovieApp.Infrastructure.Migrations
 
                     b.Property<string>("Hash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");

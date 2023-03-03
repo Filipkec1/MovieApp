@@ -1,4 +1,6 @@
-﻿namespace MovieApp.Infrastructure.EfUnitsOfWork
+﻿using MovieApp.Core.Repositories;
+
+namespace MovieApp.Infrastructure.EfUnitsOfWork
 {
     /// <summary>
     /// Defines interface for UnitOfWork.
@@ -10,5 +12,15 @@
         /// </summary>
         /// <returns></returns>
         Task Commit();
+
+        /// <summary>
+        /// Used to get <see cref="IRoleRepository"/>
+        /// </summary>
+        IRoleRepository Role { get; }
+
+        /// <summary>
+        /// Used to get <see cref="IUserRepository"/>
+        /// </summary>
+        IUserRepository User { get; }
     }
 }

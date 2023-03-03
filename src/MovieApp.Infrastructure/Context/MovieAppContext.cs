@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieApp.Core.Models.Entities;
+using MovieApp.Core.Models.Enums;
+using System.Diagnostics.Metrics;
 
 namespace MovieApp.Infrastructure.Context
 {
@@ -19,6 +21,17 @@ namespace MovieApp.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            //Role
+            modelBuilder.Entity<Role>()
+            .Property(p => p.Name)
+            .HasConversion(
+                    mse => mse.ToString(),
+                    mse => (RoleEnum)Enum.Parse(typeof(RoleEnum), mse));
+
+            modelBuilder.Entity<Role>()
+                        .Property(p => p.Name)
+                        .HasColumnType("varchar(5)");
+
             //Seed data
             SeedData(modelBuilder);
         }
@@ -32,13 +45,13 @@ namespace MovieApp.Infrastructure.Context
             Role adminRole = new Role()
             {
                 Id = Guid.Parse("71fc7674-18c7-4a01-ad55-fbecdfd7feda"),
-                Name = "Admin"
+                Name = RoleEnum.Admin
             };
 
             Role userRole = new Role()
             {
                 Id = Guid.Parse("89432022-e55f-48fb-92d9-29ccd24d7eca"),
-                Name = "User"
+                Name = RoleEnum.User
             };
 
             modelBuilder.Entity<Role>().HasData(adminRole);
