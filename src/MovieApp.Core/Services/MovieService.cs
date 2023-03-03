@@ -110,7 +110,7 @@ namespace MovieApp.Core.Services
             }
 
             //Get movie
-            Movie movie = await unitOfWork.Movie.GetMovieAndCategoryWithMovieId(newMovie.Id);
+            Movie? movie = await unitOfWork.Movie.GetMovieAndCategoryWithMovieId(newMovie.Id);
             return new MovieResult(movie);
         }
 
@@ -151,9 +151,12 @@ namespace MovieApp.Core.Services
         }
 
         /// <inheritdoc/>
-        public Task<Result<IEnumerable<MovieResult>>> FilterMovies(MovieFilterRequest request)
+        public async Task<Result<IEnumerable<MovieResult>>> FilterMovies(MovieFilterRequest request)
         {
-            throw new NotImplementedException();
+            //Get filtered movies
+            IEnumerable<Movie> movieList = await unitOfWork.Movie.FilterMovies(request);
+
+            return movieList.Select(m => new MovieResult(m)).ToList();
         }
 
         /// <inheritdoc/>

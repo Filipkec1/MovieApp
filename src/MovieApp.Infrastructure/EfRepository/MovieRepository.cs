@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqKit;
+using Microsoft.EntityFrameworkCore;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Repositories;
 using MovieApp.Core.Request;
 using MovieApp.Infrastructure.Context;
 using MovieApp.Infrastructure.EfRepository.Base;
+using System.Diagnostics.Metrics;
 
 namespace MovieApp.Infrastructure.EfRepository
 {
@@ -20,9 +22,23 @@ namespace MovieApp.Infrastructure.EfRepository
         { }
 
         /// <inheritdoc />
-        public Task<IEnumerable<Movie>> FilterMovies(MovieFilterRequest request)
+        public async Task<IEnumerable<Movie>> FilterMovies(MovieFilterRequest request)
         {
-            throw new NotImplementedException();
+            ExpressionStarter<Movie> predicate = PredicateBuilder.New<Movie>();
+
+            //Title
+            if (!string.IsNullOrEmpty(request.Title))
+            {
+                predicate = predicate.And(p => p.Title.ToLower().Contains(request.Title.ToLower()));
+            }
+
+            return await GetTableQueryable()
+                        .AsNoTracking()
+                        .Include(m => m.CategoryMovie)
+                        .ThenInclude(cm => cm.Category)
+                        .Where(predicate)
+                        .ToListAsync();
+
         }
 
         /// <inheritdoc />
@@ -44,7 +60,7 @@ namespace MovieApp.Infrastructure.EfRepository
         }
 
         /// <inheritdoc />
-        public async Task<Movie> GetMovieAndCategoryWithMovieId(Guid id)
+        public async Task<Movie?> GetMovieAndCategoryWithMovieId(Guid id)
         {
             return await GetTableQueryable()
                         .AsNoTracking()

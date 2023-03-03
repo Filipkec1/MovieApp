@@ -96,7 +96,14 @@ namespace MovieApp.Web.Controllers
         [Produces(typeof(IEnumerable<MovieResult>))]
         public async Task<ActionResult<IEnumerable<MovieResult>>> FilterMovie([FromQuery] MovieFilterRequest request)
         {
-            return Ok();
+            Result<IEnumerable<MovieResult>> result = await movieService.FilterMovies(request);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         /// <summary>

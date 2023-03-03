@@ -14,7 +14,7 @@ namespace MovieApp.Core.Repositories
         /// </summary>
         /// <param name="id">Id of the searched for <see cref="Movie"/>.</param>
         /// <returns>A <see cref="Movie"/></returns>
-        Task<Movie> GetMovieAndCategoryWithMovieId(Guid id);
+        Task<Movie?> GetMovieAndCategoryWithMovieId(Guid id);
 
         /// <summary>
         /// Get all <see cref="Movie"/>s
