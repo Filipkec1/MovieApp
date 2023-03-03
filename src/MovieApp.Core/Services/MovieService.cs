@@ -124,7 +124,17 @@ namespace MovieApp.Core.Services
                 return Result.Failure<MovieResult>(new Error("404", $"Movie with id {id} is missing."));
             }
 
+            //CategoryMovie list that is going be created
+            IEnumerable<CategoryMovie> categoryMovieDeleteList = await unitOfWork.CategoryMovie.GetCategoryMoviesByMovieId(id);
+
             unitOfWork.Movie.Delete(movie);
+
+            //Check if categoryMovieDeleteList has any values
+            //If it has delete them from the database
+            if (categoryMovieDeleteList.Any())
+            {
+                unitOfWork.CategoryMovie.DeleteRange(categoryMovieDeleteList);
+            }
 
             //Try saving changes to the database
             try
