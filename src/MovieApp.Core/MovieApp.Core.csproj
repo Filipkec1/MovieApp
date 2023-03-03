@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Folder Include="Atributes\" />
-    <Folder Include="Request\" />
     <Folder Include="UnitsOfWork\" />
   </ItemGroup>
 

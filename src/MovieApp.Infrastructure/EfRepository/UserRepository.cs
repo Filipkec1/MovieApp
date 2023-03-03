@@ -19,6 +19,15 @@ namespace MovieApp.Infrastructure.EfRepository
         { }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await GetTableQueryable()
+                        .AsNoTracking()
+                        .Include(u => u.Role)
+                        .ToListAsync();
+        }
+
+        /// <inheritdoc />
         public override async Task<User?> GetById(Guid id)
         {
             return await GetTableQueryable()

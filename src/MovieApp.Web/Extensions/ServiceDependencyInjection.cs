@@ -1,4 +1,5 @@
 ﻿using MovieApp.Core.Helpers;
+using MovieApp.Core.Services;
 using MovieApp.Infrastructure.EfUnitsOfWork;
 
 namespace MovieApp.Web.Extensions
@@ -11,8 +12,8 @@ namespace MovieApp.Web.Extensions
         /// <param name="services"></param>
         public static IServiceCollection AddServicesToDependencyInjection(this IServiceCollection services)
         {
-            //services.AddHostedService<HeistAutomizeService>();
-            //services.AddScoped<IHeistService, HeistService>();
+            //User
+            services.AddScoped<IUserService, UserService>();
 
             //Password Hashing
             services.AddScoped<IPasswordHasher, PasswordHasher>();
