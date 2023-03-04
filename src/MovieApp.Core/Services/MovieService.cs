@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Request;
+using MovieApp.Core.Request.Base;
 using MovieApp.Core.Results;
 using MovieApp.Core.Results.Base;
 using MovieApp.Core.Services.Base;
 using MovieApp.Infrastructure.EfUnitsOfWork;
+using X.PagedList;
 
 namespace MovieApp.Core.Services
 {
@@ -32,13 +34,13 @@ namespace MovieApp.Core.Services
         /// </summary>
         /// <param name="request"><see cref="MovieFilterRequest"/></param>
         /// <returns>List of <see cref="Movie"/>s as <see cref="MovieResult"/></returns>
-        Task<Result<IEnumerable<MovieResult>>> FilterMovies(MovieFilterRequest request);
+        Task<Result<MoviePagedResult>> FilterMovies(MovieFilterRequest request);
 
         /// <summary>
         /// Get all <see cref="Movie"/>s
         /// </summary>
         /// <returns>List of <see cref="Movie"/>s as <see cref="MovieResult"/></returns>
-        Task<Result<IEnumerable<MovieResult>>> GetAllMovies();
+        Task<Result<MoviePagedResult>> GetAllMovies(PaginatedListRequest request);
 
         /// <summary>
         /// Get <see cref="Movie"/> by Id
@@ -118,7 +120,7 @@ namespace MovieApp.Core.Services
         public async Task<Result> DeleteMovie(Guid id)
         {
             //Get movie
-            Movie movie = await unitOfWork.Movie.GetById(id);
+            Movie? movie = await unitOfWork.Movie.GetById(id);
             if (movie == null)
             {
                 return Result.Failure<MovieResult>(new Error("404", $"Movie with id {id} is missing."));
@@ -151,28 +153,40 @@ namespace MovieApp.Core.Services
         }
 
         /// <inheritdoc/>
-        public async Task<Result<IEnumerable<MovieResult>>> FilterMovies(MovieFilterRequest request)
+        public async Task<Result<MoviePagedResult>> FilterMovies(MovieFilterRequest request)
         {
             //Get filtered movies
-            IEnumerable<Movie> movieList = await unitOfWork.Movie.FilterMovies(request);
+            IPagedList<Movie> movieList = await unitOfWork.Movie.FilterMovies(request);
 
-            return movieList.Select(m => new MovieResult(m)).ToList();
+            //Check if list has valid pages
+            if (movieList.PageNumber != 1 && request.Page > movieList.PageCount)
+            {
+                return Result.Failure<MoviePagedResult>(new Error("404", $"Page number {request.Page} does not exist."));
+            }
+
+            return new MoviePagedResult(movieList);
         }
 
         /// <inheritdoc/>
-        public async Task<Result<IEnumerable<MovieResult>>> GetAllMovies()
+        public async Task<Result<MoviePagedResult>> GetAllMovies(PaginatedListRequest request)
         {
             //Get all movies
-            IEnumerable<Movie> movieList = await unitOfWork.Movie.GetAllMoviesWithCategory();
+            IPagedList<Movie> movieList = await unitOfWork.Movie.GetAllMoviesWithCategory(request);
 
-            return movieList.Select(m => new MovieResult(m)).ToList();
+            //Check if list has valid pages
+            if(movieList.PageNumber != 1 && request.Page > movieList.PageCount)
+            {
+                return Result.Failure<MoviePagedResult>(new Error("404", $"Page number {request.Page} does not exist."));
+            }
+
+            return new MoviePagedResult(movieList);
         }
 
         /// <inheritdoc/>
         public async Task<Result<MovieResult>> GetMovieById(Guid id)
         {
             //Get movie
-            Movie movie = await unitOfWork.Movie.GetMovieAndCategoryWithMovieId(id);
+            Movie? movie = await unitOfWork.Movie.GetMovieAndCategoryWithMovieId(id);
             if (movie == null)
             {
                 return Result.Failure<MovieResult>(new Error("404", $"Movie with id {id} is missing."));
@@ -185,7 +199,7 @@ namespace MovieApp.Core.Services
         public async Task<Result> UpdateMovie(Guid id, MovieUpdateRequest request)
         {
             //Get movie
-            Movie movie = await unitOfWork.Movie.GetById(id);
+            Movie? movie = await unitOfWork.Movie.GetById(id);
             if (movie == null)
             {
                 return Result.Failure<MovieResult>(new Error("404", $"Movie with id {id} is missing."));

@@ -1,6 +1,8 @@
 ﻿using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Repositories.Base;
 using MovieApp.Core.Request;
+using MovieApp.Core.Request.Base;
+using X.PagedList;
 
 namespace MovieApp.Core.Repositories
 {
@@ -20,13 +22,13 @@ namespace MovieApp.Core.Repositories
         /// Get all <see cref="Movie"/>s
         /// </summary>
         /// <returns>List of <see cref="Movie"/>s</returns>
-        Task<IEnumerable<Movie>> GetAllMoviesWithCategory();
+        Task<IPagedList<Movie>> GetAllMoviesWithCategory(PaginatedListRequest request);
 
         /// <summary>
         /// Get all <see cref="Movie"/> that satisfied search filter parameters
         /// </summary>
         /// <param name="request"><see cref="MovieFilterRequest"/></param>
         /// <returns>List of <see cref="Movie"/>s.</returns>
-        Task<IEnumerable<Movie>> FilterMovies(MovieFilterRequest request);
+        Task<IPagedList<Movie>> FilterMovies(MovieFilterRequest request);
     }
 }

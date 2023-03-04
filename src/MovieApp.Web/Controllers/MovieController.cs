@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieApp.Core.Atributes;
 using MovieApp.Core.Models.Entities;
-using MovieApp.Core.Models.Enums;
 using MovieApp.Core.Request;
+using MovieApp.Core.Request.Base;
 using MovieApp.Core.Results;
 using MovieApp.Core.Results.Base;
 using MovieApp.Core.Services;
@@ -73,10 +73,10 @@ namespace MovieApp.Web.Controllers
         /// </summary>
         /// <returns>List of <see cref="Movie"/>s as <see cref="MovieResult"/></returns>
         [HttpGet]
-        [Produces(typeof(IEnumerable<MovieResult>))]
-        public async Task<ActionResult<IEnumerable<MovieResult>>> GetAll()
+        [Produces(typeof(MoviePagedResult))]
+        public async Task<ActionResult<MoviePagedResult>> GetAll([FromQuery] PaginatedListRequest request)
         {
-            Result<IEnumerable<MovieResult>> result = await movieService.GetAllMovies();
+            Result<MoviePagedResult> result = await movieService.GetAllMovies(request);
 
             if (result.IsFailure)
             {
@@ -93,10 +93,10 @@ namespace MovieApp.Web.Controllers
         /// <returns>List of <see cref="Movie"/>s as <see cref="MovieResult"/></returns>
         [HttpGet]
         [Route("filter")]
-        [Produces(typeof(IEnumerable<MovieResult>))]
-        public async Task<ActionResult<IEnumerable<MovieResult>>> FilterMovie([FromQuery] MovieFilterRequest request)
+        [Produces(typeof(MoviePagedResult))]
+        public async Task<ActionResult<MoviePagedResult>> FilterMovie([FromQuery] MovieFilterRequest request)
         {
-            Result<IEnumerable<MovieResult>> result = await movieService.FilterMovies(request);
+            Result<MoviePagedResult> result = await movieService.FilterMovies(request);
 
             if (result.IsFailure)
             {

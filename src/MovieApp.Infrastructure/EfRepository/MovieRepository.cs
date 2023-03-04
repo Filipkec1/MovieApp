@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using MovieApp.Core.Models.Entities;
 using MovieApp.Core.Repositories;
 using MovieApp.Core.Request;
+using MovieApp.Core.Request.Base;
 using MovieApp.Infrastructure.Context;
 using MovieApp.Infrastructure.EfRepository.Base;
-using System.Diagnostics.Metrics;
+using X.PagedList;
 
 namespace MovieApp.Infrastructure.EfRepository
 {
@@ -22,7 +23,7 @@ namespace MovieApp.Infrastructure.EfRepository
         { }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Movie>> FilterMovies(MovieFilterRequest request)
+        public async Task<IPagedList<Movie>> FilterMovies(MovieFilterRequest request)
         {
             ExpressionStarter<Movie> predicate = PredicateBuilder.New<Movie>();
 
@@ -37,18 +38,17 @@ namespace MovieApp.Infrastructure.EfRepository
                         .Include(m => m.CategoryMovie)
                         .ThenInclude(cm => cm.Category)
                         .Where(predicate)
-                        .ToListAsync();
-
+                        .ToPagedListAsync(request.Page, request.Size);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Movie>> GetAllMoviesWithCategory()
+        public async Task<IPagedList<Movie>> GetAllMoviesWithCategory(PaginatedListRequest request)
         {
             return await GetTableQueryable()
                         .AsNoTracking()
                         .Include(m => m.CategoryMovie)
                         .ThenInclude(cm => cm.Category)
-                        .ToListAsync();
+                        .ToPagedListAsync(request.Page, request.Size);
         }
 
         /// <inheritdoc />
