@@ -5,6 +5,8 @@ using MovieApp.Core.Results.Base;
 using MovieApp.Core.Results;
 using MovieApp.Core.Services;
 using MovieApp.Web.Controllers.Base;
+using MovieApp.Core.Models.Enums;
+using MovieApp.Core.Atributes;
 
 namespace MovieApp.Web.Controllers
 {
@@ -13,6 +15,8 @@ namespace MovieApp.Web.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(RoleEnum.Admin)]
+
     public class CategoryController : BaseController<CategoryController>
     {
         private ICategoryService categoryService;
@@ -34,6 +38,8 @@ namespace MovieApp.Web.Controllers
         [HttpGet]
         [Route("{id:Guid}")]
         [Produces(typeof(CategoryResult))]
+        [Authorize(RoleEnum.Admin, RoleEnum.User)]
+
         public async Task<ActionResult<CategoryResult>> Get([FromRoute] Guid id)
         {
             Result<CategoryResult> result = await categoryService.GetCategoryById(id);
@@ -52,6 +58,7 @@ namespace MovieApp.Web.Controllers
         /// <returns>List of <see cref="Category"/>s as <see cref="CategoryResult"/></returns>
         [HttpGet]
         [Produces(typeof(IEnumerable<CategoryResult>))]
+        [Authorize(RoleEnum.Admin, RoleEnum.User)]
         public async Task<ActionResult<IEnumerable<CategoryResult>>> GetAll()
         {
             Result<IEnumerable<CategoryResult>> result = await categoryService.GetAllCategorys();
@@ -90,7 +97,6 @@ namespace MovieApp.Web.Controllers
         /// <param name="request"><see cref="CategoryUpdateRequest"/></param>
         [HttpPut]
         [Route("{id:Guid}")]
-        //[Authorize(RoleEnum.Admin, RoleEnum.User)]
         [Produces(typeof(NoContentResult))]
         public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] CategoryUpdateRequest request)
         {

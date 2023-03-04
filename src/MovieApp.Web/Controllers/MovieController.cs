@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieApp.Core.Atributes;
 using MovieApp.Core.Models.Entities;
+using MovieApp.Core.Models.Enums;
 using MovieApp.Core.Request;
 using MovieApp.Core.Request.Base;
 using MovieApp.Core.Results;
@@ -34,7 +35,7 @@ namespace MovieApp.Web.Controllers
         /// <param name="id">Id of the <see cref="Movie"/> that is going to be deleted</param>
         [HttpDelete]
         [Route("{id:Guid}")]
-        //[Authorize(RoleEnum.Admin)]
+        [Authorize(RoleEnum.Admin)]
         [Produces(typeof(NoContentResult))]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
@@ -113,6 +114,7 @@ namespace MovieApp.Web.Controllers
         /// <returns>A <see cref="Movie"/> as <see cref="MovieResult"/></returns>
         [HttpPost]
         [Produces(typeof(MovieResult))]
+        [Authorize(RoleEnum.Admin, RoleEnum.User)]
         public async Task<ActionResult<MovieResult>> Post([FromBody] MovieCreateRequest request)
         {
             Result<MovieResult> result = await movieService.CreateMovie(request);
@@ -132,7 +134,7 @@ namespace MovieApp.Web.Controllers
         /// <param name="request"><see cref="MovieUpdateRequest"/></param>
         [HttpPut]
         [Route("{id:Guid}")]
-        //[Authorize(RoleEnum.Admin, RoleEnum.User)]
+        [Authorize(RoleEnum.Admin, RoleEnum.User)]
         [Produces(typeof(NoContentResult))]
         public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] MovieUpdateRequest request)
         {
