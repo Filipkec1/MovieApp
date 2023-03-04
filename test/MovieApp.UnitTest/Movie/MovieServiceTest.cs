@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Moq;
 using MovieApp.Core.Request;
 using MovieApp.Core.Results;
 using MovieApp.Core.Results.Base;
