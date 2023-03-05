@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    container_name: movieapp.web
+    restart: always
+    build:
+        context: .
+        dockerfile: src/MovieApp.Web/Dockerfile
+    environment:
+        - ConnectionStrings:MovieAppDatabase=Server=postgres;Database=MovieAppDatabase;User Id=postgres;Password=postgres;
+        - ASPNETCORE_ENVIRONMENT=Development
+        - PasswordHasher:Iterations=10000
+        - PasswordHasher:KeySize=32
+        - JWT:Secret=V3rgGTm]3.8+vJ#a
+    depends_on:
+        - postgres
+    ports:
+        - "5000:80"
+
+  postgres:
+    container_name: movieapp.db
+    image: postgres
+    restart: always
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+    ports:
+        - "5432:5432"
+    volumes:
+        - pgdata:/var/lib/postgresql/data

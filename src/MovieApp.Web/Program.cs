@@ -9,7 +9,7 @@ namespace MovieApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +42,14 @@ namespace MovieApp
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                MovieAppContext dbContext = scope.ServiceProvider.GetRequiredService<MovieAppContext>();
+                await dbContext.Database.EnsureDeletedAsync();
+                await dbContext.Database.MigrateAsync();
+                await dbContext.Database.EnsureCreatedAsync();
+            }
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -50,6 +58,8 @@ namespace MovieApp
             }
 
             AddMiddlewareExtension.AddMiddlewareDependencyInjection(ref app);
+
+            string test = "no";
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

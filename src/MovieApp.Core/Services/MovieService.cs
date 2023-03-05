@@ -123,7 +123,7 @@ namespace MovieApp.Core.Services
             Movie? movie = await unitOfWork.Movie.GetById(id);
             if (movie == null)
             {
-                return Result.Failure<MovieResult>(new Error("404", $"Movie with id {id} is missing."));
+                return Result.Failure(new Error("404", $"Movie with id {id} is missing."));
             }
 
             //CategoryMovie list that is going be created
@@ -202,7 +202,7 @@ namespace MovieApp.Core.Services
             Movie? movie = await unitOfWork.Movie.GetById(id);
             if (movie == null)
             {
-                return Result.Failure<MovieResult>(new Error("404", $"Movie with id {id} is missing."));
+                return Result.Failure(new Error("404", $"Movie with id {id} is missing."));
             }
 
             //Update movie
@@ -212,7 +212,7 @@ namespace MovieApp.Core.Services
             HashSet<Guid> idHash = new HashSet<Guid>(request.CategoryIdList);
             if (idHash.Count != request.CategoryIdList.Count)
             {
-                return Result.Failure<MovieResult>(new Error("400", "A category is repeted."));
+                return Result.Failure(new Error("400", "A category is repeted."));
             }
 
             //CategoryMovie list that is going be created
