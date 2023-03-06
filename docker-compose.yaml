@@ -6,7 +6,7 @@ services:
     restart: always
     build:
         context: .
-        dockerfile: src/MovieApp.Web/Dockerfile
+        dockerfile: dockerfile.dotnet
     environment:
         - ConnectionStrings:MovieAppDatabase=Server=postgres;Database=MovieAppDatabase;User Id=postgres;Password=postgres;
         - ASPNETCORE_ENVIRONMENT=Development
@@ -29,3 +29,6 @@ services:
         - "5432:5432"
     volumes:
         - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
